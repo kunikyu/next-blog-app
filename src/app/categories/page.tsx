@@ -115,69 +115,28 @@ const Page: React.FC = () => {
   // カテゴリ取得完了後の画面
   return (
     <main>
-      <div className="text-2xl font-bold">カテゴリの管理</div>
-
-      <div className="mb-3 flex items-end justify-end">
-        <Link href="/admin/categories/new">
-          <button
-            type="submit"
-            className={twMerge(
-              "rounded-md px-5 py-1 font-bold",
-              "bg-blue-500 text-white hover:bg-blue-600",
-              "disabled:cursor-not-allowed disabled:opacity-50"
-            )}
-          >
-            カテゴリの新規作成
-          </button>
-        </Link>
-      </div>
+      <div className="text-2xl font-bold">カテゴリの一覧</div>
 
       {categories.length === 0 ? (
-        <div className="text-gray-500">
-          （カテゴリは1個も作成されていません）
+        <div className="mt-2 text-gray-500">
+          （カテゴリは作成されていません）
         </div>
       ) : (
         <div>
-          <div className="space-y-3">
+          <div className="mt-2 flex">
             {categories.map((category) => (
-              <div
-                key={category.id}
-                className={twMerge(
-                  "border border-slate-400 p-3",
-                  "flex items-center justify-between",
-                  "font-bold"
-                )}
-              >
-                <div>
-                  <Link href={`/admin/categories/${category.id}`}>
-                    {category.name}
-                  </Link>
-                </div>
-                <div className="flex space-x-2">
-                  <Link href={`/admin/categories/${category.id}/edit`}>
-                    <button
-                      type="button"
-                      className={twMerge(
-                        "rounded-md px-5 py-1 font-bold",
-                        "bg-indigo-500 text-white hover:bg-indigo-600"
-                      )}
-                    >
-                      編集
-                    </button>
-                  </Link>
-                  <button
-                    type="button"
+              <div className="m-1" key={category.id}>
+                <Link href={`/categories/${category.name}`}>
+                  <div
                     className={twMerge(
-                      "rounded-md px-5 py-1 font-bold",
-                      "bg-red-500 text-white hover:bg-red-600"
+                      " border border-slate-400 p-2",
+                      "flex items-center justify-between",
+                      "font-bold"
                     )}
-                    onClick={() => {
-                      handleDelete(category);
-                    }}
                   >
-                    削除
-                  </button>
-                </div>
+                    {category.name}
+                  </div>
+                </Link>
               </div>
             ))}
           </div>

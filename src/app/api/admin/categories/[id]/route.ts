@@ -11,7 +11,28 @@ type RouteParams = {
 type RequestBody = {
   name: string;
 };
-
+export const GET = async (req: NextRequest, routeParams: RouteParams) => {
+  try {
+    const id = routeParams.params.id;
+    const category = await prisma.category.findUnique({
+      where: { id },
+    });
+    if (category) {
+      return NextResponse.json({ name: category.name });
+    } else {
+      return NextResponse.json(
+        { error: "カテゴリが見つかりませんでした" },
+        { status: 404 }
+      );
+    }
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json(
+      { error: "カテゴリの取得に失敗しました" },
+      { status: 500 }
+    );
+  }
+};
 export const PUT = async (req: NextRequest, routeParams: RouteParams) => {
   try {
     const id = routeParams.params.id;

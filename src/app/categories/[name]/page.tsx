@@ -1,28 +1,34 @@
 "use client";
 import { useState, useEffect } from "react";
+import { useParams } from "next/navigation";
+
 import type { Post } from "@/app/_types/Post";
 import type { PostApiResponse } from "@/app/_types/PostApiResponse";
-import PostSummary from "@/app/_components/PostSummary";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
-import Link from "next/link";
+import Image from "next/image";
+import PostSummary from "@/app/_components/PostSummary";
+
+import DOMPurify from "isomorphic-dompurify";
 
 const Page: React.FC = () => {
   const [posts, setPosts] = useState<Post[] | null>(null);
   const [fetchError, setFetchError] = useState<string | null>(null);
 
+  const { name } = useParams() as { name: string };
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const requestUrl = `/api/posts`;
-        const response = await fetch(requestUrl, {
+        const requestPostsUrl = `/api/posts`;
+        const Postsresponse = await fetch(requestPostsUrl, {
           method: "GET",
           cache: "no-store",
         });
-        if (!response.ok) {
+
+        if (!Postsresponse.ok) {
           throw new Error("データの取得に失敗しました");
         }
-        const postResponse: PostApiResponse[] = await response.json();
+        const postResponse: PostApiResponse[] = await Postsresponse.json();
         setPosts(
           postResponse.map((rawPost) => ({
             id: rawPost.id,
@@ -61,19 +67,18 @@ const Page: React.FC = () => {
       </div>
     );
   }
-
   return (
     <main>
-      <div className="text-2xl font-bold">投稿記事一覧</div>
-      <div className="mb-1 flex justify-end">
-        <Link href="/admin" className="text-blue-500 underline">
-          管理者機能
-        </Link>
-      </div>
+      <div className="text-2xl font-bold">{decodeURI(name)}記事一覧</div>
       <div className="space-y-3">
-        {posts.map((post) => (
-          <PostSummary key={post.id} post={post} />
-        ))}
+        {posts.map((post) =>
+          post.categories.map(
+            (categorie) =>
+              categorie.name === decodeURI(name) && (
+                <PostSummary key={post.id} post={post} />
+              )
+          )
+        )}
       </div>
     </main>
   );

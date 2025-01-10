@@ -21,15 +21,18 @@ const PostSummary: React.FC<Props> = (props) => {
         <div>{dayjs(post.createdAt).format(dtFmt)}</div>
         <div className="flex space-x-1.5">
           {post.categories.map((category) => (
-            <div
-              key={category.id}
-              className={twMerge(
-                "rounded-md px-2 py-0.5",
-                "text-xs font-bold",
-                "border border-slate-400 text-slate-500"
-              )}
-            >
-              {category.name}
+            <div key={category.id}>
+              <Link href={`/categories/${category.name}`}>
+                <div
+                  className={twMerge(
+                    "rounded-md px-2 py-0.5",
+                    "text-xs font-bold",
+                    "border border-slate-400 text-slate-500"
+                  )}
+                >
+                  {category.name}
+                </div>
+              </Link>
             </div>
           ))}
         </div>

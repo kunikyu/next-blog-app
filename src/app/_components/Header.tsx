@@ -22,7 +22,7 @@ const Header: React.FC = () => {
       <div className="bg-slate-800 py-2">
         <div
           className={twMerge(
-            "mx-4 max-w-2xl md:mx-auto",
+            "mx-4 max-w-2xl  md:mx-auto",
             "flex items-center justify-between",
             "text-lg font-bold text-white"
           )}
@@ -34,14 +34,12 @@ const Header: React.FC = () => {
             </Link>
           </div>
           <div className="flex gap-x-6">
-            {/* ▼ 追加 */}
             {!isLoading &&
               (session ? (
                 <button onClick={logout}>Logout</button>
               ) : (
                 <Link href="/login">Login</Link>
               ))}
-            {/* ▲ 追加 */}
             <Link href="/about">About</Link>
           </div>
         </div>
