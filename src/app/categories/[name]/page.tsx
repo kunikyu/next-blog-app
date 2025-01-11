@@ -69,12 +69,14 @@ const Page: React.FC = () => {
   }
   return (
     <main>
-      <div className="text-2xl font-bold">{decodeURI(name)}記事一覧</div>
+      <div className="text-2xl font-bold">
+        カテゴリ「{decodeURI(name)}」の投稿
+      </div>
       <div className="space-y-3">
         {posts.map((post) =>
           post.categories.map(
-            (categorie) =>
-              categorie.name === decodeURI(name) && (
+            (c) =>
+              c.name === decodeURI(name) && (
                 <PostSummary key={post.id} post={post} />
               )
           )

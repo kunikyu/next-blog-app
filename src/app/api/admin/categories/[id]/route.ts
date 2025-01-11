@@ -13,12 +13,18 @@ type RequestBody = {
 };
 export const GET = async (req: NextRequest, routeParams: RouteParams) => {
   try {
-    const id = routeParams.params.id;
+    const categoryId = routeParams.params.id;
+    const posts = await prisma.postCategory.findMany({
+      where: { categoryId: categoryId },
+    });
     const category = await prisma.category.findUnique({
-      where: { id },
+      where: { id: categoryId },
     });
     if (category) {
-      return NextResponse.json({ name: category.name });
+      return NextResponse.json({
+        name: category.name,
+        postIds: posts.map((post) => post.postId),
+      });
     } else {
       return NextResponse.json(
         { error: "カテゴリが見つかりませんでした" },
@@ -33,6 +39,7 @@ export const GET = async (req: NextRequest, routeParams: RouteParams) => {
     );
   }
 };
+
 export const PUT = async (req: NextRequest, routeParams: RouteParams) => {
   try {
     const id = routeParams.params.id;

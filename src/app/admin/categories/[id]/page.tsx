@@ -14,7 +14,7 @@ const Page: React.FC = () => {
   const [fetchError, setFetchError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [categoryName, setCategoryName] = useState<string | null>(null);
-
+  const [postids, setPostIds] = useState<string[] | null>(null);
   const { id } = useParams() as { id: string };
   const fetchCategoryName = useCallback(async () => {
     try {
@@ -27,6 +27,7 @@ const Page: React.FC = () => {
       }
       const data = await response.json();
       setCategoryName(data.name);
+      setPostIds(data.postIds);
     } catch (e) {
       setFetchError(
         e instanceof Error ? e.message : "予期せぬエラーが発生しました"
@@ -113,18 +114,16 @@ const Page: React.FC = () => {
       </div>
 
       <div className="space-y-3">
-        {posts.map((post) =>
-          post.categories.map(
-            (c) =>
-              c.id === id && (
-                <AdminPostSummary
-                  key={post.id}
-                  post={post}
-                  reloadAction={reloadAction}
-                  setIsSubmitting={setIsSubmitting}
-                />
-              )
-          )
+        {posts.map(
+          (post) =>
+            postids?.includes(post.id) && (
+              <AdminPostSummary
+                key={post.id}
+                post={post}
+                reloadAction={reloadAction}
+                setIsSubmitting={setIsSubmitting}
+              />
+            )
         )}
       </div>
 
