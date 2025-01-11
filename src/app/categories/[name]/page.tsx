@@ -74,12 +74,9 @@ const Page: React.FC = () => {
       </div>
       <div className="space-y-3">
         {posts.map((post) =>
-          post.categories.map(
-            (c) =>
-              c.name === decodeURI(name) && (
-                <PostSummary key={post.id} post={post} />
-              )
-          )
+          post.categories.some((c) => c.name === decodeURI(name)) ? (
+            <PostSummary key={post.id} post={post} />
+          ) : null
         )}
       </div>
     </main>

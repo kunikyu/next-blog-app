@@ -14,7 +14,6 @@ const PostSummary: React.FC<Props> = (props) => {
   const safeHTML = DOMPurify.sanitize(post.content, {
     ALLOWED_TAGS: ["b", "strong", "i", "em", "u", "br"],
   });
-  console.log(post);
   return (
     <div className="border border-slate-400 p-3">
       <div className="flex items-center justify-between">
