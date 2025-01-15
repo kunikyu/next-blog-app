@@ -30,7 +30,7 @@ const Header: React.FC = () => {
           <div>
             <Link href="/">
               <FontAwesomeIcon icon={faFish} className="mr-1" />
-              MyBlogApp
+              KunikyuBlog
             </Link>
           </div>
           <div className="flex gap-x-6">
